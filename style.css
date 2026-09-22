@@ -482,27 +482,33 @@ html:not([data-visual=heritage]) #heritage-feedback-strip {
   }
 }
 
-/* 1. VÙNG MEME LỚN BÊN TRÁI */
+/* 1. VÙNG MEME LỚN BÊN TRÁI - Khung chứa trong suốt, ảnh tự ôm sát viền */
 .heritage-strip-meme {
   width: 100% !important;
   height: clamp(210px, 23vh, 260px) !important;
   max-height: 260px !important;
-  background: #ede0c4 !important; /* Nền kem nhạt không lộ mép ảnh */
-  border: 1px solid rgba(200, 144, 42, 0.35) !important;
-  border-radius: 1rem !important;
-  overflow: hidden !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  overflow: visible !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  box-shadow: inset 0 2px 6px rgba(139, 80, 20, 0.08) !important;
+  box-shadow: none !important;
 }
 
 #heritage-meme-img {
-  width: 100% !important;
-  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  width: auto !important;
+  height: auto !important;
   object-fit: contain !important;
   object-position: center !important;
+  border: 1.5px solid var(--heritage-border-gold, #c8902a) !important;
   border-radius: 0.85rem !important;
+  box-shadow: 0 4px 14px -2px rgba(139, 80, 20, 0.16) !important;
+  background-color: #fdf4e3 !important;
+  display: block !important;
 }
 
 /* 2. VÙNG THÔNG TIN KẾT QUẢ Ở GIỮA */
@@ -1044,20 +1050,32 @@ body.presentation-mode .heritage-feedback-strip:not(.hidden) {
   align-items: center !important;
 }
 
-/* KHUNG MEME LỚN TRONG F11: 380-480px rộng, 280-360px cao */
+/* KHUNG MEME LỚN TRONG F11: Tự động ôm sát theo từng tỷ lệ ảnh */
 body.presentation-mode .heritage-strip-meme {
   width: 100% !important;
   height: clamp(280px, 34vh, 360px) !important;
   max-height: 360px !important;
-  background: #ede0c4 !important;
-  border-radius: 1.1rem !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 body.presentation-mode #heritage-meme-img {
-  width: 100% !important;
-  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  width: auto !important;
+  height: auto !important;
   object-fit: contain !important;
   object-position: center !important;
+  border: 2px solid var(--heritage-border-gold, #c8902a) !important;
+  border-radius: 1.1rem !important;
+  box-shadow: 0 6px 20px -2px rgba(139, 80, 20, 0.2) !important;
+  display: block !important;
 }
 
 /* Vùng giữa thông tin trong F11 */
