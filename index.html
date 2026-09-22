@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trắc Nghiệm Tư Tưởng Hồ Chí Minh - Đại Đoàn Kết Toàn Dân Tộc</title>
+  
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: ['selector', '[data-theme="dark"]'],
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            outfit: ['Outfit', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Google Fonts: Inter & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Custom CSS for theme overrides and custom animations -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="min-h-screen flex flex-col transition-colors duration-300">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 w-full border-b border-[var(--border)] bg-[var(--bg-card)]/80 backdrop-blur-md transition-colors duration-300">
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3 cursor-pointer" onclick="app.showDashboard()">
+        <!-- Red-Gold Icon -->
+        <div class="p-2.5 bg-gradient-to-tr from-red-600 to-amber-500 rounded-xl text-white shadow-md shadow-red-500/20">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="font-outfit font-extrabold text-xl leading-none tracking-tight bg-gradient-to-r from-[var(--text-main)] to-red-600 bg-clip-text text-transparent">
+            Tư Tưởng Hồ Chí Minh
+          </h1>
+          <p class="text-[10px] font-bold text-[var(--text-muted)] tracking-wider uppercase mt-0.5">Chương 5: Đại Đoàn Kết Toàn Dân Tộc</p>
+        </div>
+      </div>
+      
+      <div class="flex items-center space-x-3 md:space-x-4">
+        <!-- User Rank Tag -->
+        <div id="user-rank" class="px-3 py-1.5 rounded-full text-xs font-bold shadow-sm border border-[var(--border)] text-red-600 dark:text-red-400 transition-all duration-300 shrink-0">
+          <!-- Injected dynamically by app.js -->
+        </div>
+        <!-- Visual Switcher -->
+        <div class="visual-switcher" id="visual-switcher">
+          <button id="visual-switcher-btn" class="visual-switcher-btn" aria-label="Đổi giao diện">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+            </svg>
+            <span class="hidden sm:inline">Giao diện</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          <div id="visual-switcher-dropdown" class="visual-switcher-dropdown">
+            <div class="switcher-dropdown-header">Chọn giao diện</div>
+
+            <!-- Option: Default -->
+            <button class="switcher-option active" id="vs-option-default" data-visual="default" onclick="app.setVisualTheme('default')">
+              <div class="switcher-option-icon" style="background: linear-gradient(135deg, #1e293b, #334155);">🖥️</div>
+              <div class="switcher-option-text">
+                <span class="switcher-option-title">Mặc định</span>
+                <span class="switcher-option-desc">Sáng / Tối hiện đại</span>
+              </div>
+              <svg id="vs-check-default" class="switcher-checkmark" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+              </svg>
+            </button>
+
+            <!-- Option: Vietnamese Heritage -->
+            <button class="switcher-option" id="vs-option-heritage" data-visual="heritage" onclick="app.setVisualTheme('heritage')">
+              <div class="switcher-option-icon" style="background: linear-gradient(135deg, #b8191a, #c8902a);">🏮</div>
+              <div class="switcher-option-text">
+                <span class="switcher-option-title">Di sản Việt Nam</span>
+                <span class="switcher-option-desc">Giấy kem · Đỏ son · Vàng đồng</span>
+              </div>
+              <svg id="vs-check-heritage" class="switcher-checkmark" style="display:none;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Dark Mode Toggle -->
+        <button id="theme-toggle" class="p-2.5 rounded-xl border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" aria-label="Toggle Theme">
+          <!-- Icon injected dynamically by app.js -->
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main View Area -->
+  <main class="flex-1 max-w-6xl w-full mx-auto px-4 py-8 flex flex-col heritage-main-wrapper">
+    
+    <!-- DASHBOARD VIEW -->
+    <section id="dashboard-view" class="flex-1 flex flex-col justify-center">
+      <!-- Heritage layout wrapper: on heritage theme this becomes a left-column layout -->
+      <div class="heritage-dashboard-content">
+        <div class="heritage-dashboard-left">
+          <div class="heritage-title-block text-center max-w-2xl mx-auto mb-4">
+            <h2 class="font-outfit font-black text-3xl md:text-4xl text-[var(--text-main)] mb-0">
+              Trắc Nghiệm Tư Tưởng Hồ Chí Minh
+            </h2>
+          </div>
+          
+          <!-- Mascot Greeting Area -->
+          <div id="mascot-container" class="flex flex-col md:flex-row items-center justify-center gap-4 mb-5 max-w-2xl mx-auto bg-[var(--bg-card)] p-5 rounded-2xl border border-[var(--border)] shadow-sm transition-all duration-300 w-full">
+            <div class="relative shrink-0">
+              <img src="./final/avatar_meo/avatar.jpg" alt="Thị trưởng Mèo" class="w-16 h-16 rounded-full border-2 border-[var(--accent)] object-cover shadow-md">
+              <span class="absolute bottom-0 right-0 text-lg">👑</span>
+            </div>
+            <div class="mascot-bubble relative flex-1 bg-slate-100 dark:bg-slate-800/40 text-[var(--text-main)] px-5 py-4 rounded-2xl border border-[var(--border)] text-sm md:text-base font-semibold text-center md:text-left leading-relaxed w-full">
+              <!-- Speech bubble arrow (pointing to avatar) -->
+              <div class="bubble-arrow absolute w-3 h-3 bg-slate-100 dark:bg-[#151c2c] border-l border-b border-[var(--border)] rotate-45 -left-1.5 top-1/2 -translate-y-1/2 hidden md:block"></div>
+              <div class="bubble-arrow absolute w-3 h-3 bg-slate-100 dark:bg-[#151c2c] border-t border-l border-[var(--border)] rotate-45 left-1/2 -translate-x-1/2 -top-1.5 md:hidden"></div>
+              <span id="mascot-speech">Đang đọc giáo trình Chương 5...</span>
+            </div>
+          </div>
+          
+          <!-- Chapters Grid -->
+          <div id="chapter-grid" class="max-w-xl mx-auto w-full">
+            <!-- Chapters dynamic injected by app.js -->
+          </div>
+        </div><!-- end .heritage-dashboard-left -->
+      </div><!-- end .heritage-dashboard-content -->
+    </section>
+
+
+    <!-- QUIZ VIEW -->
+    <section id="quiz-view" class="hidden flex-1 flex flex-col lg:flex-row items-center lg:items-start justify-center gap-8 py-4 w-full">
+      <!-- Left Column: Quiz Content -->
+      <div class="w-full max-w-2xl flex-shrink-0">
+        
+        <!-- Navigation bar at the top of Quiz -->
+        <div class="quiz-nav-bar flex items-center justify-between mb-4">
+          <button id="btn-back" class="flex items-center space-x-2 text-sm font-semibold text-[var(--text-muted)] hover:text-[var(--text-main)] transition-colors px-3 py-1.5 rounded-lg border border-[var(--border)] hover:bg-slate-100 dark:hover:bg-slate-800">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            <span>Về Menu</span>
+          </button>
+          
+          <div class="text-right">
+            <span id="quiz-progress-text" class="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wider">Câu hỏi 1 / 20</span>
+          </div>
+        </div>
+        
+        <!-- Progress Bar -->
+        <div class="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-2 mb-6 overflow-hidden progress-container-cat">
+          <div id="quiz-progress-fill" class="bg-gradient-to-r from-red-600 to-amber-500 h-2 rounded-full transition-all duration-300 relative progress-bar-cat" style="width: 0%">
+            <span class="cat-head-icon">🐱</span>
+          </div>
+        </div>
+        
+        <!-- CHAPTER HEADER TITLE -->
+        <div class="quiz-chapter-bar flex items-center justify-between mb-3">
+          <h3 id="quiz-chapter-title" class="text-xs font-extrabold text-[var(--accent)] uppercase tracking-wider"></h3>
+        </div>
+        
+        <!-- MULTIPLE CHOICE QUESTION CARD -->
+        <div id="question-card" class="bg-[var(--bg-card)] shadow-md rounded-2xl p-6 md:p-8 border border-[var(--border)] relative overflow-hidden transition-all duration-300">
+          
+          <!-- Question Content -->
+          <div class="mb-6">
+            <div class="inline-flex items-center space-x-2 mb-2">
+              <span id="question-badge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-100 dark:bg-red-950/50 text-red-600 dark:text-red-400">
+                Câu 1
+              </span>
+            </div>
+            <h4 id="question-text" class="font-outfit font-bold text-xl md:text-2xl leading-snug text-[var(--text-main)]">
+              <!-- Injected by app.js -->
+            </h4>
+          </div>
+          
+          <!-- Options Container -->
+          <div id="options-container" class="space-y-3 mb-6">
+            <!-- 4 Option Buttons Injected by app.js -->
+          </div>
+
+          <!-- HERITAGE INLINE FEEDBACK STRIP (Horizontal Result Bar) -->
+          <div id="heritage-feedback-strip" class="heritage-feedback-strip hidden">
+            <!-- Left Zone: Large Meme Frame -->
+            <div class="heritage-strip-meme">
+              <img id="heritage-meme-img" src="" alt="Meme kết quả">
+            </div>
+
+            <!-- Center Zone: Status, Streak, Message, Explanation -->
+            <div class="heritage-strip-center">
+              <div class="heritage-strip-status-row">
+                <span id="heritage-strip-status" class="heritage-strip-status"></span>
+                <span id="heritage-strip-streak" class="heritage-strip-streak"></span>
+              </div>
+              <div id="heritage-strip-message" class="heritage-strip-message"></div>
+              <div id="heritage-strip-explanation" class="heritage-strip-explanation">
+                <span class="heritage-exp-label">💡 Giải thích chi tiết:</span>
+                <p id="heritage-strip-exp-text"></p>
+              </div>
+            </div>
+
+            <!-- Right Zone: Next Question Button -->
+            <div class="heritage-strip-action">
+              <button type="button" id="btn-heritage-next" class="btn-heritage-next">
+                Tiếp theo →
+              </button>
+            </div>
+          </div>
+
+          <!-- Feedback & Explanation Block -->
+          <div id="quiz-feedback" class="hidden mt-4 p-5 rounded-xl border border-[var(--border)] transition-all">
+            <div id="feedback-header" class="flex items-center space-x-2 font-bold text-base mb-2">
+              <!-- Injected by app.js -->
+            </div>
+            <div class="text-sm rounded-lg p-3 bg-slate-50 dark:bg-slate-900/80 border border-[var(--border)] leading-relaxed text-[var(--text-main)]">
+              <span class="font-bold text-[var(--accent)] block mb-1">💡 Giải thích chi tiết:</span>
+              <p id="quiz-explanation-text" class="text-xs md:text-sm text-[var(--text-muted)]"></p>
+            </div>
+          </div>
+          
+          <!-- Next Button -->
+          <div class="mt-6 flex justify-end">
+            <button type="button" id="btn-next-question" class="hidden w-full md:w-auto px-8 py-3 rounded-xl bg-gradient-to-r from-red-600 to-amber-600 hover:from-red-700 hover:to-amber-700 text-white font-bold shadow-lg shadow-red-600/20 transition active:scale-95 flex items-center justify-center space-x-2">
+              <span>Câu tiếp theo</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- RESULTS CARD -->
+        <div id="results-card" class="hidden">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            
+            <!-- Left Column: Statistics & Action Buttons -->
+            <div class="flex flex-col items-center md:items-start text-center md:text-left">
+              <div class="p-4 bg-red-50 dark:bg-red-950/40 rounded-full mb-4 inline-block self-center md:self-start">
+                <span class="text-4xl">🏆</span>
+              </div>
+              <h4 class="font-outfit font-extrabold text-2xl text-[var(--text-main)]">Hoàn thành bài ôn tập!</h4>
+              <div id="results-percentage" class="text-5xl font-black text-[var(--accent)] mt-3 mb-1">0%</div>
+              <p id="results-score" class="text-[var(--text-muted)] text-sm md:text-base max-w-sm mb-6"></p>
+              
+              <div class="flex flex-col sm:flex-row gap-3 w-full">
+                <button type="button" id="btn-restart" class="flex-1 py-3 px-4 rounded-xl bg-[var(--accent)] text-white font-bold hover:bg-[var(--accent-hover)] transition shadow-md shadow-red-600/20">
+                  Luyện tập lại
+                </button>
+                <button type="button" id="btn-review-answers" class="flex-1 py-3 px-4 rounded-xl border border-[var(--border)] hover:bg-slate-100 dark:hover:bg-slate-800 text-[var(--text-main)] font-semibold transition">
+                  Xem lại đáp án
+                </button>
+                <button onclick="app.showDashboard()" class="flex-1 py-3 px-4 rounded-xl border border-[var(--border)] hover:bg-slate-100 dark:hover:bg-slate-800 text-[var(--text-main)] font-semibold transition">
+                  Về Trang chủ
+                </button>
+              </div>
+            </div>
+            
+            <!-- Right Column: Video Meme Card -->
+            <div class="bg-white dark:bg-slate-900 border border-[var(--border)] rounded-2xl p-4 shadow-xl flex flex-col items-center w-full">
+              <div class="relative w-full max-h-[380px] overflow-hidden rounded-xl bg-slate-50 dark:bg-slate-950 flex items-center justify-center border border-[var(--border)]">
+                <video id="end-video-player" class="w-full h-auto max-h-[380px] object-contain rounded-lg border-0 outline-none" autoplay loop muted playsinline></video>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Review Section (Expandable) -->
+          <div id="review-container" class="hidden mt-8 pt-6 border-t border-[var(--border)] w-full">
+            <h5 class="font-outfit font-bold text-lg text-[var(--text-main)] mb-4 flex items-center justify-between">
+              <span>Bảng xem lại 20 câu hỏi & giải thích</span>
+              <button id="btn-close-review" class="text-xs font-semibold text-[var(--accent)] hover:underline">Thu gọn ▲</button>
+            </h5>
+            <div id="review-list" class="space-y-4 max-h-[500px] overflow-y-auto pr-2">
+              <!-- Injected by app.js -->
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Right Column: Meme Card (Popup) -->
+      <div id="quiz-meme-card" class="hidden w-full max-w-sm bg-[var(--bg-card)] rounded-2xl border border-[var(--border)] p-6 shadow-2xl flex flex-col items-center self-center lg:self-start">
+        <div id="meme-streak-badge" class="mb-3 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"></div>
+        <div class="relative w-full max-h-[300px] overflow-hidden rounded-xl mb-4 bg-slate-100 dark:bg-slate-800 flex items-center justify-center border border-[var(--border)]">
+          <img id="meme-image" src="" alt="Meme Mèo" class="w-full h-full object-contain" style="opacity: 0;">
+        </div>
+        <div id="meme-message" class="text-sm font-semibold text-center mb-4 text-[var(--text-main)]"></div>
+        <button type="button" id="btn-meme-next" class="w-full py-3 px-4 rounded-xl bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 font-bold hover:opacity-90 transition active:scale-95">
+          Tiếp theo →
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-[var(--border)] py-6 bg-[var(--bg-card)] transition-colors duration-300 text-center text-xs text-[var(--text-muted)]">
+    <div class="max-w-6xl mx-auto px-4">
+      <p class="font-semibold text-[var(--text-main)]">TƯ TƯỞNG HỒ CHÍ MINH - ĐẠI ĐOÀN KẾT TOÀN DÂN TỘC</p>
+      <p class="mt-1 font-bold text-red-500">LÊ GIA BẢO</p>
+    </div>
+  </footer>
+
+  <!-- Canvas Confetti Library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <!-- Application script loads -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
