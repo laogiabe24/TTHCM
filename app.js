@@ -57,7 +57,6 @@ const MEME_RESOURCES = {
     './final/video/1.mp4',
     './final/video/2.mp4',
     './final/video/3.mp4',
-    './final/video/4.mp4',
     './final/video/5.mp4',
     './final/video/6.mp4',
     './final/video/7.mp4',
@@ -204,7 +203,6 @@ class QuizApp {
       this.renderDashboard();
       this.updateThemeToggleUI();
       this.updateVisualSwitcherUI();
-      this.preloadAllMemeImages();
       this.checkFullscreenMode();
       // Default screen state: dashboard/home
       document.body.classList.add('screen-home');
@@ -220,18 +218,15 @@ class QuizApp {
     });
   }
 
-  preloadAllMemeImages() {
-    const allLists = [
-      ...MEME_RESOURCES.file1,
-      ...MEME_RESOURCES.file2,
-      ...MEME_RESOURCES.file3,
-      ...MEME_RESOURCES.file4,
-      ...MEME_RESOURCES.file5,
-      ...MEME_RESOURCES.file6
-    ];
-    allLists.forEach(url => {
-      const img = new Image();
-      img.src = url;
+  preloadChapterMemes(chapterId) {
+    const list = MEME_RESOURCES[`file${chapterId}`];
+    if (!Array.isArray(list)) return;
+    const idlePreload = window.requestIdleCallback || ((cb) => setTimeout(cb, 1000));
+    idlePreload(() => {
+      list.forEach(url => {
+        const img = new Image();
+        img.src = url;
+      });
     });
   }
 
@@ -612,6 +607,9 @@ class QuizApp {
     this.questions = [...this.currentChapter.questions];
     this.currentIndex = 0;
     this.score = { correct: 0, total: this.questions.length };
+
+    // Gentle lazy-preload for only the selected chapter's memes
+    this.preloadChapterMemes(chapterId);
 
     this.loadQuestion();
   }

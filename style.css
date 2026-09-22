@@ -95,7 +95,8 @@
 
 /* Body: ảnh nền phủ toàn màn hình, chỉ khi ở màn hình home */
 [data-visual="heritage"] body.screen-home {
-  background-image: url("./anh nen.png");
+  background-image: url("./anh nen.jpg");
+  background-image: image-set(url("./anh nen.webp") type("image/webp"), url("./anh nen.jpg") type("image/jpeg"));
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center right;
